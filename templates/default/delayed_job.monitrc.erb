@@ -1,0 +1,6 @@
+check process <%= @app_name %>_delayed_job_<%= @worker_number %>
+  with pidfile <%= @path %>/tmp/pids/delayed_job.<%= @worker_number %>.pid
+  start program = "/bin/su -c '/usr/bin/env RAILS_ENV=production <%= @path %>/bin/delayed_job start -i <%= @worker_number %>' - deploy"
+  stop program = "/bin/su -c '/usr/bin/env RAILS_ENV=production <%= @path %>/bin/delayed_job stop -i <%= @worker_number %>' - deploy"
+  if totalmem is greater than 300 MB then restart # eating up memory?
+  group delayed_job_<%= @app_name %>
